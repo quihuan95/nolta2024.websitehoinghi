@@ -1,0 +1,35 @@
+RewriteEngine On
+
+RewriteCond %{QUERY_STRING} ^page=(\d+)$
+RewriteRule ^ %{REQUEST_URI}? [R=301,L]
+
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteRule ^(.*)$ /public/$1 [L,QSA]
+
+RewriteEngine On
+RewriteBase /
+RewriteCond %{HTTP_HOST} ^www.nolta2024.websitehoinghi.com [NC]
+RewriteRule ^(.*)$ https://nolta2024.websitehoinghi.com/$1 [L,R=301]
+
+
+<ifModule mod_gzip.c>
+mod_gzip_on Yes
+mod_gzip_dechunk Yes
+mod_gzip_item_include file .(html?|txt|css|js|php|pl)$
+mod_gzip_item_include handler ^cgi-script$
+mod_gzip_item_include mime ^text/.*
+mod_gzip_item_include mime ^application/x-javascript.*
+mod_gzip_item_exclude mime ^image/.*
+mod_gzip_item_exclude rspheader ^Content-Encoding:.*gzip.*
+</ifModule>
+<ifmodule mod_expires.c>
+<Filesmatch "\.(jpg|jpeg|png|gif|js|css|swf|ico|woff|woff2|otf|mp3)$">
+ExpiresActive on
+ExpiresDefault "access plus 1 year"
+</Filesmatch>
+</ifmodule>
+
+<FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$">
+Header set Cache-Control "max-age=290304000, public"
+</FilesMatch>
+
